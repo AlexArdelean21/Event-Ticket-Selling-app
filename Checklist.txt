@@ -1,0 +1,186 @@
+### Checklist for My C++ Object-Oriented Programming Project (Phase 1)
+
+1. [X] Class Design:
+   - [X] I've created classes for event location (e.g., EventLocation), event (e.g., Event), and tickets (e.g., Ticket).
+
+
+2. [ ] Attributes for Classes:
+   - [ ] In each class, I've defined attributes like the event name, date, time, maximum seats, rows, zones, and seat codes.
+
+EventLocation Class:
+
+Attributes:
+Dynamically defined field for the event location's name (managed by a pointer).
+Statically defined array to store the seat availability (e.g., int seats[ROWS][SEATS_PER_ROW]).
+Static field to keep track of the total number of event locations.
+Constant field for the maximum number of seats in the location.
+	
+Accessory Functions:
+Getter and setter methods for the name.
+Accessor methods to read and update seat availability.
+
+Generic Methods:
+Calculate the percentage of seats filled.
+Display the available seats in a specific row.
+
+Constructors:
+Default constructor.
+Parameterized constructor.
+Copy constructor.
+Destructor.
+
+Overloaded Operators:
+Overload the assignment operator (=).
+Overload the output operator (<<).
+Overload the equality operator (==).
+
+
+Event Class:
+
+Attributes:
+Dynamically defined field for the event name (managed by a pointer).
+Statically defined array to store event details (e.g., char date[11], char time[6]).
+Constant field for the event type (e.g., "Concert").
+
+Accessory Functions:
+Getter and setter methods for the event name.
+Accessor methods to read and update event details.
+
+Generic Methods:
+Display event details.
+Calculate the duration of the event.
+
+Constructors:
+Default constructor.
+Parameterized constructor.
+Copy constructor.
+Destructor.
+
+Overloaded Operators:
+Overload the assignment operator (=).
+Overload the output operator (<<).
+Overload the equality operator (==).
+
+
+Ticket Class:
+
+Attributes:
+Dynamically defined field for the ticket category (managed by a pointer).
+Statically defined array for the unique ticket ID (e.g., char id[16]).
+Constant field for the ticket prefix.
+
+Accessory Functions:
+Getter and setter methods for the ticket category.
+Accessor methods to read and update the ticket ID.
+
+Generic Methods:
+Display ticket details.
+Verify the ticket's validity.
+
+Constructors:
+Default constructor.
+Parameterized constructor.
+Copy constructor.
+Destructor.
+
+Overloaded Operators:
+Overload the assignment operator (=).
+Overload the output operator (<<).
+Overload the equality operator (==).
+
+
+SeatAllocation Class:
+
+Attributes:
+Statically defined array to represent the seating layout (e.g., char seats[ROWS][SEATS_PER_ROW]).
+Static field to store the total number of seats.
+Constant field for the maximum number of rows and seats per row.
+
+Accessory Functions:
+Accessor methods to check seat availability and assign seats.
+
+Generic Methods:
+Display the seating layout.
+
+Constructors:
+Default constructor.
+
+Overloaded Operators:
+Overload the output operator (<<).
+
+
+EventStatistics Class:
+
+Attributes:
+Statically defined arrays to store statistics data (e.g., int attendanceHistory[MAX_EVENTS], float revenueHistory[MAX_EVENTS]).
+Static field to store the total number of events.
+Constant field for the maximum number of events to track.
+
+Accessory Functions:
+Accessor methods to update and retrieve attendance and revenue data.
+
+Generic Methods:
+Calculate average attendance and revenue.
+
+Constructors:
+Default constructor.
+
+Overloaded Operators:
+Overload the output operator (<<).
+
+
+3. [ ] Data Members:
+   - [ ] I've placed these attributes in the private section of each class.
+
+4. [ ] Accessor Methods:
+   - [ ] I've implemented accessor methods (getters) for each attribute.
+
+5. [ ] Validation in Setters:
+   - [ ] I've created setter methods for attributes, and they include input validation.
+
+6. [ ] Static and Constant Members:
+   - [ ] Within each class, I've included at least one static and one constant field relevant to the class.
+
+7. [ ] Dynamic Vectors:
+   - [ ] I've used dynamically allocated vectors of characters and numeric vectors in my classes.
+
+8. [ ] Static Method:
+   - [ ] I've included a static method within each class.
+
+9. [ ] Generic Methods:
+   - [ ] I've implemented at least two generic methods (not constructors or accessors) in each class for various processing.
+
+10. [ ] Constructors:
+    - [ ] I've created both default constructors and constructors with parameters for each class.
+
+11. [ ] "Rule of 3":
+    - [ ] If any of the classes have pointer members, I've ensured they follow the "rule of 3" (copy constructor, copy assignment operator, destructor).
+
+12. [ ] Overload Operators:
+    - [ ] I've overloaded the input (>>) and output (<<) operators for each class.
+
+13. [ ] Additional Overloaded Operators:
+    - [ ] I've overloaded at least two other operators for each class from the provided list (e.g., indexing operator, arithmetic operators, etc.).
+
+14. [ ] Class Header and Implementation:
+    - [ ] Each class is implemented in its own header and/or cpp file.
+
+15. [ ] Main Function:
+    - [ ] I've created the main function in a separate cpp file.
+
+16. [ ] Implement Functionality:
+    - [ ] I've implemented basic functionality to create, read, and manipulate data for the event location, event, and tickets.
+
+17. [ ] Error Handling:
+    - [ ] My application handles various input types and displays error messages for invalid input values.
+
+18. [ ] Git Repository:
+    - [ ] I've set up a Git repository for my project.
+    - [ ] I've made multiple commits after each class implementation/update.
+    - [ ] Each commit includes a short message explaining the changes.
+
+19. [ ] Testing:
+    - [ ] I've tested my classes and functions with different scenarios to ensure they work as expected.
+
+20. [ ] Documentation:
+    - [ ] I've added comments and documentation to my code to explain the purpose and usage of classes and functions.
