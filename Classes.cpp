@@ -82,7 +82,7 @@ EventLocation EventLocation::operator++() {// Prefix
     this->maxSeats += 1;
     return *this;
 }
-
+// sa modific din void in class 
 void operator<<(ostream& output, EventLocation& el) {
     cout << endl << "The event will take place at " << el.getLocationName() << ".";
     cout << endl << "The revenu will provide " << el.getMaxSeats() << " seats, spread across " << el.getRows() << " rows.";
@@ -95,7 +95,6 @@ int Event::eventsNo = 0;
 Event::Event() : eventName("No name"), type("None"), duration(0) {
     this->setDate("00/00/0000");
     this->setStartingHour("00:00");
-    Event::eventsNo++;
 }
 
 Event::Event(const char* _eventName, const string _type, const char* _date, const char* _startingHour) : type(_type) {
@@ -140,11 +139,10 @@ void Event::setDuration(int _duration) {
 
 // Getters
 const char* Event::getEventName() { return this->eventName; }
-string Event::getType() { return this->type; }
+const string Event::getType() { return this->type; }
 char* Event::getDate() { return this->date; }
 char* Event::getStartingHour() { return this->startingHour; }
 int Event::getDuration() { return this->duration; }
-int Event::getEventsNo() { return eventsNo; } // is this ok?
 
 // D.ctor and C.ctor
 // Do i need a D.ctor
@@ -169,6 +167,10 @@ Event::Event(Event& e) : type(e.type) {
 
 // Overloaded operators
 Event& Event::operator=(const Event& e) {
+    if (eventName != nullptr) {
+        delete[] eventName;
+    }
+
     if (this == &e)
         return *this;
 
@@ -189,9 +191,52 @@ Event Event::operator++() {
     this->duration += 1;
     return *this;
 }
-
+// sa modific din void in class type
 void operator<<(ostream& output, Event& e) {
     cout << endl << e.getEventName() << " is a " << e.getType();
     cout << endl << "It will start at " << e.getStartingHour() << " on ";
     cout << endl << e.getEventName() << " is " << e.getDuration() << " long.";
+}
+
+// TICKETS CLASS
+int Tickets::ticketsSold[] = {0, 0};
+
+// Ctors
+Tickets::Tickets() : category("No category"), maxTickets(0) {
+    this->setId("000000000000000");
+}
+
+Tickets::Tickets(const char* _id, const char* _category,const int _maxTickets) : category(_category), maxTickets(300){
+    this->id = setId(_id);
+    Tickets::ticketsSold[0]++;
+}
+
+Tickets::Tickets(const char* _vipId, const char* _category, const int _maxTickets) : category(_category), maxTickets(300) {
+    this->vipId = setId(_vipId);
+    Tickets::ticketsSold[1]++;
+}
+
+// Setters
+
+void Tickets::setId(const char* _id) {
+    if (strlen(_id) != 15)
+        throw exception("Wrong id");
+    strcpy_s(this->id, _id);
+
+}void Tickets::setVipId(const char* _vipId) {
+    if (strlen(_vipId) != 3)
+        throw exception("Wrong id");
+    strcpy_s(this->id, _vipId);
+}
+
+// Getters
+
+char* Tickets::getId() { return this->id; }
+char* Tickets::getVipId() { return this->vipId; }
+const char* Tickets::getCategory() { return this->category; }
+const int Tickets::getMaxTickets() { return this->maxTickets; }
+
+// Dtor and C.ctor
+Tickets::~Tickets() {
+    delete[] this->category;
 }

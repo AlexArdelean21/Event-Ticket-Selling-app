@@ -1,4 +1,4 @@
 ﻿  main.cpp
   Classes.cpp
+D:\Alex lucru\facultate\an2_sem1\opp\opp project\Classes.cpp(211,14): error C3863: array type 'char [16]' is not assignable
   Generating Code...
-  opp project.vcxproj -> D:\Alex lucru\facultate\an2_sem1\opp\opp project\x64\Debug\opp project.exe

@@ -12,7 +12,6 @@ public:
 
 class EventLocation {
 
-    //imi mai trebuie setter pt locationName (si alte const) daca le am in ctor? //nu
     const char* locationName = nullptr;
     int maxSeats = 0;
     int rows = 0;
@@ -49,7 +48,7 @@ void operator<<(ostream& output, EventLocation& el);
 class Event {
     const char* eventName = nullptr;
     const string type = "";
-    char date[11] = ""; // dd/mm/yyyy
+    char date[11] = ""; // dd/mm/yyyy   // sa pun si aici const?
     char startingHour[6] = "";
     int duration = 0;
     static int eventsNo;
@@ -69,12 +68,12 @@ public:
 
     // Getters
     const char* getEventName();
-    string getType();
+    const string getType();
     char* getDate();
     char* getStartingHour();
     int getDuration();
     static int getEventsNo();
-    // D.ctor and C.ctor
+    // Dtor and C.ctor
     ~Event();
     Event(Event& e);
 
@@ -83,5 +82,39 @@ public:
     Event operator++(int);
     Event operator++();
 };
+void operator<<(ostream& output, Event& e);
 
 
+class Tickets {
+    char id[16] = "";
+    char vipId[4] = "";  //idk if i should implement this
+    const char* category = nullptr;
+    const int maxTickets;
+    static int ticketsSold[2]; // 0 => normal tickets sold, 1 => vip tickets sold
+
+public:
+    // Ctors
+    Tickets();
+    Tickets(const char* _id, const char* _category, const int _maxTickets);
+    Tickets(const char* _vipId, const char* _category, const int _maxTickets);
+
+    // Settrs
+    void setId(const char* _id);
+    void setVipId(const char* _vipId);
+
+    // Getters
+    char* getId();
+    char* getVipId();
+    const char* getCategory();
+    const int getMaxTickets();
+
+    // C.ctor and dtor
+    ~Tickets();
+    Tickets(Tickets& t);
+
+    // Overloaded operators
+    Tickets& operator=(const Tickets& t);
+    
+};
+
+void operator<<(ostream& output, Tickets& t);
