@@ -64,6 +64,10 @@ EventLocation::EventLocation(const EventLocation& e) {
 
 // Overloaded operators
 EventLocation& EventLocation::operator=(const EventLocation& el) {
+    if (locationName != nullptr) {
+        delete[] locationName;
+    }
+    
     if (this == &el) {
         return *this;
     }
@@ -83,9 +87,10 @@ EventLocation EventLocation::operator++() {// Prefix
     return *this;
 }
 // sa modific din void in class 
-void operator<<(ostream& output, EventLocation& el) {
-    cout << endl << "The event will take place at " << el.getLocationName() << ".";
-    cout << endl << "The revenu will provide " << el.getMaxSeats() << " seats, spread across " << el.getRows() << " rows.";
+ostream& operator<<(ostream& output, EventLocation& el) {
+    output << endl << "The event will take place at " << el.getLocationName() << ".";
+    output << endl << "The revenu will provide " << el.getMaxSeats() << " seats, spread across " << el.getRows() << " rows.";
+    return output;
 }
 
 // EVENT CLASS
@@ -181,43 +186,40 @@ Event& Event::operator=(const Event& e) {
     return *this;
 }
 
-Event Event::operator++(int) {
-    Event copy = *this;
-    this->duration += 1;
-    return copy;
-}
-
-Event Event::operator++() {
-    this->duration += 1;
-    return *this;
-}
 // sa modific din void in class type
-void operator<<(ostream& output, Event& e) {
-    cout << endl << e.getEventName() << " is a " << e.getType();
-    cout << endl << "It will start at " << e.getStartingHour() << " on ";
-    cout << endl << e.getEventName() << " is " << e.getDuration() << " long.";
+ostream& operator<<(ostream& output, Event& e) {
+    output << endl << e.getEventName() << " is a " << e.getType();
+    output << endl << "It will start at " << e.getStartingHour() << " on " << e.getDate();
+    output << endl << e.getEventName() << " is " << e.getDuration() << " long.";
+    return output;
 }
 
 // TICKETS CLASS
 int Tickets::ticketsSold[] = {0, 0};
+
+// Other methods
+bool Tickets::isVip(const char* _category) {
+    if (_category != "Vip" && _category != "Normal") {
+        throw exception("Choose between Normal and Vip!");
+    }
+    if (_category == "Vip") return true;
+    else return false;
+}
 
 // Ctors
 Tickets::Tickets() : category("No category"), maxTickets(0) {
     this->setId("000000000000000");
 }
 
-Tickets::Tickets(const char* _id, const char* _category,const int _maxTickets) : category(_category), maxTickets(300){
-    this->id = setId(_id);
-    Tickets::ticketsSold[0]++;
-}
-
-Tickets::Tickets(const char* _vipId, const char* _category, const int _maxTickets) : category(_category), maxTickets(300) {
-    this->vipId = setId(_vipId);
-    Tickets::ticketsSold[1]++;
+Tickets::Tickets(const char* _id, const char* _category, const int _maxTickets, int _ticketsSoldIndex) :  category(_category), maxTickets(300){
+    if (_ticketsSoldIndex == 0) { this->setId(_id); }
+    else if (_ticketsSoldIndex == 1) { this->setVipId(_id); }
+    else throw exception("There is no such ticket");
+    
+    Tickets::ticketsSold[_ticketsSoldIndex]++;
 }
 
 // Setters
-
 void Tickets::setId(const char* _id) {
     if (strlen(_id) != 15)
         throw exception("Wrong id");
@@ -235,8 +237,46 @@ char* Tickets::getId() { return this->id; }
 char* Tickets::getVipId() { return this->vipId; }
 const char* Tickets::getCategory() { return this->category; }
 const int Tickets::getMaxTickets() { return this->maxTickets; }
+int* Tickets::getTicketsSold() { return Tickets::ticketsSold; }
 
 // Dtor and C.ctor
 Tickets::~Tickets() {
     delete[] this->category;
+}
+
+Tickets::Tickets(Tickets& t) : maxTickets(t.maxTickets){
+
+    if (this == &t) return;
+    if (t.category) {
+        this->category = Util::copyArray(t.category);
+    }
+    else {
+        this->category = nullptr;
+    }
+
+    this->setId(t.getId());
+    this->setVipId(t.getVipId());
+}
+
+
+// Overloaded operators
+Tickets& Tickets::operator=(const Tickets& t) {
+    if (category != nullptr) {
+        delete[] category;
+    }
+    if (this == &t) {
+        return *this;
+    }
+
+    this->setId(t.id);
+    this->setVipId(t.vipId);
+}
+
+ostream& operator<<(ostream& output, Tickets& t) {
+    if (t.isVip(t.getCategory())) {
+        output << endl<< "You bought a Vip ticket, this is your ticket's id: " << t.getVipId();
+        output << "Thre are a number of " << t.getMaxTickets() << " in total";
+        output << "So far " << Tickets::getTicketsSold()[0] + Tickets::getTicketsSold()[1] << " tickets have been sold.";
+    }
+    return output;
 }

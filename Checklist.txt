@@ -32,28 +32,24 @@ Overload the equality operator (==).
 
 Ticket Class:
 
-Attributes:
-Statically defined array for the unique ticket ID (e.g., char id[16]).
-Constant field for the ticket prefix.
-
 Accessory Functions:
 Getter and setter methods for the ticket category.
 Accessor methods to read and update the ticket ID.
 
 Generic Methods:
-Display ticket details.
 Verify the ticket's validity.
 
-Constructors:
-Default constructor.
-Parameterized constructor.
-Copy constructor.
-Destructor.
-
 Overloaded Operators:
-Overload the assignment operator (=).
-Overload the output operator (<<).
 Overload the equality operator (==).
+
+
+
+indexing operator []
+arithmetic operators (+,-,* or /)
+++ or -- (both forms)
+implicitly or explicitly cast
+negation operator !
+relational operators (<.>,=<,>=,==)
 
 
 3. [X] Data Members:

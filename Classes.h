@@ -5,17 +5,17 @@
 
 using namespace std;
 
-class Util {
+class Util { // I should add a variable (an array [rows][seats]) and a method that will take fill up the spots
 public:
     static char* copyArray(const char* source);
 };
 
 class EventLocation {
-
     const char* locationName = nullptr;
-    int maxSeats = 0;
-    int rows = 0;
+    int maxSeats = 0; //i should add a method to check if the max seats are the same as the max tickets
+    int rows = 0;  
     static int locationsNo;
+   
 
 public:
     EventLocation();  // Ctors
@@ -41,9 +41,11 @@ public:
     EventLocation operator++(int);
 
     EventLocation operator++();
+
+    //>> and implicitly or explicitly cast
 };
 // Will this work for all the classes?
-void operator<<(ostream& output, EventLocation& el);
+ostream& operator<<(ostream& output, EventLocation& el);
 
 class Event {
     const char* eventName = nullptr;
@@ -54,6 +56,7 @@ class Event {
     static int eventsNo;
 
 public:
+    // Other methods
 
     // Ctors
     Event();
@@ -79,11 +82,14 @@ public:
 
     // Overloaded operators
     Event& operator=(const Event& e);
-    Event operator++(int);
-    Event operator++();
 };
-void operator<<(ostream& output, Event& e);
+ostream& operator<<(ostream& output, Event& e);
 
+// >>, !, +
+
+enum TicketType {
+    NORMAL, VIP
+};
 
 class Tickets {
     char id[16] = "";
@@ -93,10 +99,12 @@ class Tickets {
     static int ticketsSold[2]; // 0 => normal tickets sold, 1 => vip tickets sold
 
 public:
+    // Other methods
+    bool isVip(const char* _category);
+
     // Ctors
     Tickets();
-    Tickets(const char* _id, const char* _category, const int _maxTickets);
-    Tickets(const char* _vipId, const char* _category, const int _maxTickets);
+    Tickets(const char* _id, const char* _category, const int _maxTickets, int ticketsSoldIndex);
 
     // Settrs
     void setId(const char* _id);
@@ -107,6 +115,7 @@ public:
     char* getVipId();
     const char* getCategory();
     const int getMaxTickets();
+    static int* getTicketsSold();
 
     // C.ctor and dtor
     ~Tickets();
@@ -117,4 +126,5 @@ public:
     
 };
 
-void operator<<(ostream& output, Tickets& t);
+ostream& operator<<(ostream& output, Tickets& t);
+// ==, >> and maybe []
