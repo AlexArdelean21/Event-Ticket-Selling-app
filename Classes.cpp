@@ -74,6 +74,7 @@ EventLocation& EventLocation::operator=(const EventLocation& el) {
 
     this->setMaxSeats(el.maxSeats);
     this->setRows(el.rows);
+    return *this;
 }
 
 EventLocation EventLocation::operator++(int) {// Postfix
@@ -153,7 +154,7 @@ int Event::getDuration() { return this->duration; }
 // Do i need a D.ctor
 
 Event::~Event() {
-    delete[] this->eventName;
+    delete[] this->eventName;// if i commnet this, it will run
 }
 
 Event::Event(Event& e) : type(e.type) {
@@ -190,7 +191,7 @@ Event& Event::operator=(const Event& e) {
 ostream& operator<<(ostream& output, Event& e) {
     output << endl << e.getEventName() << " is a " << e.getType();
     output << endl << "It will start at " << e.getStartingHour() << " on " << e.getDate();
-    output << endl << e.getEventName() << " is " << e.getDuration() << " long.";
+    output << endl << "The " << e.getEventName() << " is " << e.getDuration() << " minutes long.";
     return output;
 }
 
@@ -202,7 +203,7 @@ bool Tickets::isVip(const char* _category) {
     if (_category != "Vip" && _category != "Normal") {
         throw exception("Choose between Normal and Vip!");
     }
-    if (_category == "Vip") return true;
+    if (_category == "Vip") return true;    
     else return false;
 }
 
@@ -241,7 +242,7 @@ int* Tickets::getTicketsSold() { return Tickets::ticketsSold; }
 
 // Dtor and C.ctor
 Tickets::~Tickets() {
-    delete[] this->category;
+    //delete[] this->category;
 }
 
 Tickets::Tickets(Tickets& t) : maxTickets(t.maxTickets){
@@ -270,13 +271,22 @@ Tickets& Tickets::operator=(const Tickets& t) {
 
     this->setId(t.id);
     this->setVipId(t.vipId);
+    return *this;
 }
+
 
 ostream& operator<<(ostream& output, Tickets& t) {
     if (t.isVip(t.getCategory())) {
         output << endl<< "You bought a Vip ticket, this is your ticket's id: " << t.getVipId();
-        output << "Thre are a number of " << t.getMaxTickets() << " in total";
+        output << "Thre are a number of " << t.getMaxTickets() << "tickets in total";
         output << "So far " << Tickets::getTicketsSold()[0] + Tickets::getTicketsSold()[1] << " tickets have been sold.";
+    }
+    else {
+        output << endl << "You bought a ticket, this is your ticket's id: " << t.getId();
+        output << endl << "Thre are " << t.getMaxTickets() - (Tickets::getTicketsSold()[0] + Tickets::getTicketsSold()[1]);
+        output<< " tickets remaining";
+   
+        
     }
     return output;
 }
