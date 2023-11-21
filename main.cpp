@@ -8,32 +8,45 @@ using namespace std;
 
 int main() {
 
-    cout << endl << endl;
+    /*EventLocation location1; 
+    cin >> location1;
+    cout << location1;*/
 
-    Tickets t1("123456789012345", "Normal", 300, NORMAL);
-    Tickets t2("456", "Vip", 300,VIP);
-    Tickets t3("789", "Vip", 300, VIP); 
+  /*  EventLocation location2("Conference Hall", 100, 10); 
+    cout << location2;
+    int x = (int)location2;
+    cout << x;*/
+    
+    //// Display location details using overloaded operator<<
+    //cout <<endl << "Location 1:" << location1 << endl;
+    //cout <<endl << "Location 2:" << location2 << endl;
 
-    // Print some information about the tickets
-    cout << "The category of t1 is " << t1.getCategory() << endl;
-    cout << "The id of t2 is " << t2.getId() << endl;
-    cout << "The max tickets for t3 is " << t3.getMaxTickets() << endl;
+    //// Modify and display details of location1
+    //location1.setMaxSeats(50);
+    //location1.setRows(5);
+    //cout <<endl << "Modified Location 1:" << location1 << endl;
 
-    // Check if some tickets are Vip
-    cout << endl << "Is t1 Vip? " << t1.isVip(t1.getCategory()) << endl;
-    cout << "Is t2 Vip? " << t2.isVip(t2.getCategory()) << endl;
+    //// Demonstrate copy constructor and copy assignment operator
+    //EventLocation location3 = location2;
+    //EventLocation location4;
+    //location4 = location1;          
 
-    // Get the number of tickets sold for each category
-    cout << endl << "The number of Normal tickets sold is " << t1.getTicketsSold()[0] << endl;
-    cout << "The number of Vip tickets sold is " << t2.getTicketsSold()[1] << endl;
+    //cout <<endl << "Copied Location 2 to Location 3:" << location3 << endl;
+    //cout <<endl << "Copied Location 1 to Location 4:" << location4 << endl;
 
-    // Display event details using overloaded operator<<
-    cout << t1;   //does nothing
+    //// Demonstrate the increment operators
+    //EventLocation location5 = location2++;
+    //EventLocation location6 = ++location1;
+
+    //cout << endl << "Postfix Increment Location 2:" << location5 << endl;
+    //cout << "Prefix Increment Location 1:" << location6 << endl;
+
 
     //--------------------------------------------------------------------------------------------
     // WORKS IF I COMMENT THE DTOR  
     //Event event2("Birthday Party", "Celebration", "12/01/2023", "18:00"); // Parameterized constructor
     //Event event3("Conference", "Business", "05/15/2023", "09:30", 180); // Parameterized constructor with duration
+    //cout << event3[2];
 
     //// Display event details using overloaded operator<<
     //cout << endl << "Event 2:" << event2 << endl;
@@ -50,34 +63,28 @@ int main() {
     
     //--------------------------------------------------------------------------------------------
 
-    //EventLocation location1; // Default constructor
-    //EventLocation location2("Conference Hall", 100, 10); // Parameterized constructor
+    //Tickets t1("123456789", "Normal", 300, NORMAL);
+    Tickets t2("456", "Vip", 300,VIP);
+    Tickets t3("789", "Vip", 300, VIP); 
+    bool x = t2 == t3;
+    cout << x;
 
-    //// Display location details using overloaded operator<<
-    //cout << "Location 1:" << location1 << endl;
-    //cout << "Location 2:" << location2 << endl;
+    //// Print some information about the tickets
+    //cout << "The category of t1 is " << t1.getCategory() << endl;
+    //cout << "The id of t2 is " << t2.getId() << endl;
+    //cout << "The max tickets for t3 is " << t3.getMaxTickets() << endl;
 
-    //// Modify and display details of location1
-    //location1.setMaxSeats(50);
-    //location1.setRows(5);
-    //cout << "Modified Location 1:" << location1 << endl;
+    //// Check if some tickets are Vip
+    //cout << endl << "Is t1 Vip? " << t1.isVip(t1.getCategory()) << endl;
+    //cout << "Is t2 Vip? " << t2.isVip(t2.getCategory()) << endl;
 
-    //// Demonstrate copy constructor and copy assignment operator
-    //EventLocation location3 = location2; // Copy constructor
-    //EventLocation location4;
-    //location4 = location1; // Copy assignment operator
+    //// Get the number of tickets sold for each category
+    //cout << endl << "The number of Normal tickets sold is " << t1.getTicketsSold()[0] << endl;
+    //cout << "The number of Vip tickets sold is " << t2.getTicketsSold()[1] << endl;
 
-    //cout << "Copied Location 2 to Location 3:" << location3 << endl;
-    //cout << "Copied Location 1 to Location 4:" << location4 << endl;
+    //// Display event details using overloaded operator<<
+    //cout << t1 << endl;   
 
-    //// Demonstrate the increment operators
-    //EventLocation location5 = location2++; // Postfix increment
-    //EventLocation location6 = ++location1; // Prefix increment
-
-    //cout << "Postfix Increment Location 2:" << location5 << endl;
-    //cout << "Prefix Increment Location 1:" << location6 << endl;
-
-    cout << endl << endl;
-    return 0;
-
+    //cout << endl << endl;
+    //return 0;
 }

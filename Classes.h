@@ -14,9 +14,7 @@ class EventLocation {
     const char* locationName = nullptr;
     int maxSeats = 0; //i should add a method to check if the max seats are the same as the max tickets
     int rows = 0;  
-    static int locationsNo;
    
-
 public:
     EventLocation();  // Ctors
     EventLocation(const char* _locationName, int _maxSeats, int _rows);
@@ -26,7 +24,7 @@ public:
     void setRows(int _rows);
 
     // Gettrs
-    const char* getLocationName() const;
+    const char* getLocationName();
     int getMaxSeats();
     int getRows();
     static int getLocationsNo();
@@ -37,21 +35,21 @@ public:
 
     // Overloaded operators
     EventLocation& operator=(const EventLocation& el);
-
     EventLocation operator++(int);
-
     EventLocation operator++();
-
-    //>> and implicitly or explicitly cast
+    friend istream& operator>>(istream& input, EventLocation& el);
+    explicit operator int();
+                                                // maybe i'll add ! operator here
 };
-// Will this work for all the classes?
+
+istream& operator>>(istream& input, EventLocation& el);
 ostream& operator<<(ostream& output, EventLocation& el);
 
 class Event {
     const char* eventName = nullptr;
-    const string type = "";
-    char date[11] = ""; // dd/mm/yyyy   // sa pun si aici const?
-    char startingHour[6] = "";
+    string type = "";
+    char date[11] = ""; // dd/mm/yyyy   
+    char startingHour[6] = ""; // 21:30
     int duration = 0;
     static int eventsNo;
 
@@ -82,20 +80,23 @@ public:
 
     // Overloaded operators
     Event& operator=(const Event& e);
+    Event operator+(int value);
+    friend istream& operator>>(istream& input, Event& e); 
+    char& operator[](int index);
+
 };
 ostream& operator<<(ostream& output, Event& e);
-
-// >>, !, +
+istream& operator>>(istream& input, Event& e);
 
 enum TicketType {
     NORMAL, VIP
 };
 
 class Tickets {
-    char id[16] = "";
+    char id[10] = "";
     char vipId[4] = "";  //idk if i should implement this
     const char* category = nullptr;
-    const int maxTickets;
+    int maxTickets;
     static int ticketsSold[2]; // 0 => normal tickets sold, 1 => vip tickets sold
 
 public:
@@ -123,8 +124,10 @@ public:
 
     // Overloaded operators
     Tickets& operator=(const Tickets& t);
+    friend istream& operator>>(istream& input, Tickets& t);
+    bool operator==(Tickets t);
     
 };
 
 ostream& operator<<(ostream& output, Tickets& t);
-// ==, >> and maybe []
+istream& operator>>(istream& input, Tickets& t);

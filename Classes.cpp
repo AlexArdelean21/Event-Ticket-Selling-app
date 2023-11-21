@@ -8,23 +8,22 @@ using namespace std;
 
 // UTIL CLASS
 char* Util::copyArray(const char* source) {
+    if (source == nullptr) {
+        return nullptr;
+    }
 	char* copy = new char[strlen(source) + 1];
 	strcpy_s(copy, strlen(source) + 1, source);
 	return copy;
 }
 
 // EVENTLOCATION CLASS
-int EventLocation::locationsNo = 0;
-
 // Ctors
 EventLocation::EventLocation() : maxSeats(0), rows(0) {
     this->locationName = "No name";
-    EventLocation::locationsNo++;
 }
 
 EventLocation::EventLocation(const char* _name, int _maxSeats, int _rows) : maxSeats(_maxSeats), rows(_rows){
     this->locationName = _name;
-    EventLocation::locationsNo++;
 }
 
 // Setters
@@ -37,17 +36,19 @@ void EventLocation::setRows(int _rows) {
 }
 
 // Getters
-const char* EventLocation::getLocationName() const { return this->locationName; }
-
+const char* EventLocation::getLocationName() {
+    char* copy = Util::copyArray(this->locationName);
+    return copy;
+}
 int EventLocation::getMaxSeats() { return this->maxSeats; }
-
 int EventLocation::getRows() { return this->rows; }
-
-int EventLocation::getLocationsNo() { return locationsNo; }
 
 // destructor
 EventLocation::~EventLocation() {
-    delete[] this->locationName;
+    if (this->locationName != nullptr) {
+        delete[] this->locationName;
+    }
+    
 }
 
 // cpy ctor
@@ -87,11 +88,33 @@ EventLocation EventLocation::operator++() {// Prefix
     this->maxSeats += 1;
     return *this;
 }
+
+EventLocation::operator int() {
+    return EventLocation::getMaxSeats();  
+}
+
 // sa modific din void in class 
 ostream& operator<<(ostream& output, EventLocation& el) {
     output << endl << "The event will take place at " << el.getLocationName() << ".";
     output << endl << "The revenu will provide " << el.getMaxSeats() << " seats, spread across " << el.getRows() << " rows.";
     return output;
+}
+
+istream& operator>>(istream& input, EventLocation& el) {
+    string buffer;
+    cout << endl << "Set a name for your location: ";
+    input >> buffer;
+    if (el.locationName != nullptr) {
+        delete[] el.locationName;
+    }
+    el.locationName = Util::copyArray(buffer.c_str());
+    
+    cout << endl << "The maximum number of seats will be: ";
+    input >> el.maxSeats;
+
+    cout << endl << "The number of rows: ";
+    input >> el.rows;
+    return input;
 }
 
 // EVENT CLASS
@@ -144,17 +167,22 @@ void Event::setDuration(int _duration) {
 }
 
 // Getters
-const char* Event::getEventName() { return this->eventName; }
+const char* Event::getEventName() { 
+    char* copy = Util::copyArray(eventName);
+    return copy; }
 const string Event::getType() { return this->type; }
-char* Event::getDate() { return this->date; }
-char* Event::getStartingHour() { return this->startingHour; }
+char* Event::getDate() { return Util::copyArray(this->date); }
+char* Event::getStartingHour() { return Util::copyArray(this->startingHour); }
 int Event::getDuration() { return this->duration; }
 
 // D.ctor and C.ctor
 // Do i need a D.ctor
 
 Event::~Event() {
-    delete[] this->eventName;// if i commnet this, it will run
+    if (this->eventName != nullptr) {
+        delete[] this->eventName;
+    }
+        
 }
 
 Event::Event(Event& e) : type(e.type) {
@@ -185,6 +213,44 @@ Event& Event::operator=(const Event& e) {
     this->setStartingHour(e.startingHour); // fara variabilele constante
 
     return *this;
+}
+
+Event Event::operator+(int value) {
+    Event copy = *this;
+    copy.duration += value;   // or copy.setDuration(getDuration() + value)
+    return copy;
+}
+
+char& Event::operator[](int index) {
+    if (index >= 0 && index < 6) {
+        return getStartingHour()[index];
+    }
+    throw exception("Invalid index");
+}
+
+
+istream& operator>>(istream& input, Event& e) {
+    string buffer;
+    cout << endl << "Name your event: ";
+    input >> buffer;
+    if (e.eventName != nullptr) {
+        delete[] e.eventName;
+    }
+    e.eventName = Util::copyArray(buffer.c_str());
+
+    cout << "What type of event will it be? ";
+    input >> e.type;   
+    
+    cout << "What is the date of the event?";
+    input >> e.date;
+
+    cout << "What is the starting hour of the event?";
+    input >> e.startingHour;
+
+    cout << "What is the duration, in minutes, of the event?";
+    input >> e.duration;
+
+    return input;
 }
 
 // sa modific din void in class type
@@ -222,7 +288,7 @@ Tickets::Tickets(const char* _id, const char* _category, const int _maxTickets, 
 
 // Setters
 void Tickets::setId(const char* _id) {
-    if (strlen(_id) != 15)
+    if (strlen(_id) != 9)
         throw exception("Wrong id");
     strcpy_s(this->id, _id);
 
@@ -242,7 +308,9 @@ int* Tickets::getTicketsSold() { return Tickets::ticketsSold; }
 
 // Dtor and C.ctor
 Tickets::~Tickets() {
-    //delete[] this->category;
+    if (this->category != nullptr) {
+        delete[] this->category;
+    }
 }
 
 Tickets::Tickets(Tickets& t) : maxTickets(t.maxTickets){
@@ -272,6 +340,47 @@ Tickets& Tickets::operator=(const Tickets& t) {
     this->setId(t.id);
     this->setVipId(t.vipId);
     return *this;
+}
+
+bool Tickets::operator==(Tickets t) {
+    if (!strcmp(t.category, "Vip")) {
+        if (!strcmp(t.vipId, this->vipId)) { return true; }
+        else { return false; }
+    }
+    else if (!strcmp(t.category, "Normal")) {
+        if (!strcmp(t.id, this->id)) { return true; }
+        else { return false; }
+    }
+    else {
+        throw exception("Wrong category");
+    }
+}
+
+istream& operator>>(istream& input, Tickets& t) {
+    cout << "What type of ticket would you like?" << endl << "Vip or Normal ?";
+    string buffer;
+    while (buffer != "Vip" || buffer != "Normal") {
+        input >> buffer;
+    }
+
+    if (t.category != nullptr) {
+        delete[] t.category;
+    }
+    t.category = Util::copyArray(buffer.c_str());
+
+    if (!strcmp(t.category, "Vip")) {
+        cout << "Enter the Vip id, it should loook like this \"###\" :";
+        input >> t.vipId;
+    }
+    else if (!strcmp(t.category, "Normal")) {
+        cout << "Enter the Vip id, it should loook like this \"#########\" :";
+        input >> t.id;
+    }
+
+    cout << "What is the maximum ammount of tickets? ";
+    input >> t.maxTickets;
+    
+    return input;
 }
 
 

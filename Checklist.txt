@@ -16,28 +16,13 @@ Generic Methods:
 Calculate the percentage of seats filled.
 Display the available seats in a specific row.
 
-Overloaded Operators:
-Overload the equality operator (==).
-
-
 Event Class:
 
-Generic Methods:
-Display event details.
-Calculate the duration of the event.
-
 Overloaded Operators:
-Overload the equality operator (==).
+Overload the >> operator 
 
 
 Ticket Class:
-
-Accessory Functions:
-Getter and setter methods for the ticket category.
-Accessor methods to read and update the ticket ID.
-
-Generic Methods:
-Verify the ticket's validity.
 
 Overloaded Operators:
 Overload the equality operator (==).
@@ -45,9 +30,6 @@ Overload the equality operator (==).
 
 
 indexing operator []
-arithmetic operators (+,-,* or /)
-++ or -- (both forms)
-implicitly or explicitly cast
 negation operator !
 relational operators (<.>,=<,>=,==)
 
@@ -64,34 +46,34 @@ relational operators (<.>,=<,>=,==)
 6. [X] Static and Constant Members:
    - [ ] Within each class, I've included at least one static and one constant field relevant to the class.
 
-7. [ ] Dynamic Vectors:
+7. [X] Dynamic Vectors:
    - [ ] I've used dynamically allocated vectors of characters and numeric vectors in my classes.
 
-8. [ ] Static Method:
-   - [ ] I've included a static method within each class.
+8. [x] Static Method:
+   - [ ] I've included a static.
 
-9. [ ] Generic Methods:
+9. [X] Generic Methods:
    - [ ] I've implemented at least two generic methods (not constructors or accessors) in each class for various processing.
 
 10. [X] Constructors:
     - [ ] I've created both default constructors and constructors with parameters for each class.
 
-11. [ ] "Rule of 3":
+11. [X] "Rule of 3":
     - [ ] If any of the classes have pointer members, I've ensured they follow the "rule of 3" (copy constructor, copy assignment operator, destructor).
 
-12. [ ] Overload Operators:
+12. [X] Overload Operators:
     - [ ] I've overloaded the input (>>) and output (<<) operators for each class.
 
-13. [ ] Additional Overloaded Operators:
+13. [X] Additional Overloaded Operators:
     - [ ] I've overloaded at least two other operators for each class from the provided list (e.g., indexing operator, arithmetic operators, etc.).
 
 14. [X] Class Header and Implementation:
     - [ ] Each class is implemented in its own header and/or cpp file.
 
-15. [ ] Main Function:
+15. [X] Main Function:
     - [ ] I've created the main function in a separate cpp file.
 
-16. [ ] Implement Functionality:
+16. [X] Implement Functionality:
     - [ ] I've implemented basic functionality to create, read, and manipulate data for the event location, event, and tickets.
 
 17. [ ] Error Handling:
