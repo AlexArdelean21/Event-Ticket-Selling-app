@@ -27,7 +27,6 @@ public:
     const char* getLocationName();
     int getMaxSeats();
     int getRows();
-    static int getLocationsNo();
 
     // D.ctor and C.ctor
     ~EventLocation(); 
@@ -96,7 +95,7 @@ class Tickets {
     char id[10] = "";
     char vipId[4] = "";  //idk if i should implement this
     const char* category = nullptr;
-    int maxTickets;
+    int maxTickets = 0;
     static int ticketsSold[2]; // 0 => normal tickets sold, 1 => vip tickets sold
 
 public:

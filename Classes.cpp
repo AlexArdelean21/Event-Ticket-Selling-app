@@ -19,11 +19,11 @@ char* Util::copyArray(const char* source) {
 // EVENTLOCATION CLASS
 // Ctors
 EventLocation::EventLocation() : maxSeats(0), rows(0) {
-    this->locationName = "No name";
+    this->locationName =  Util::copyArray(" ");
 }
 
 EventLocation::EventLocation(const char* _name, int _maxSeats, int _rows) : maxSeats(_maxSeats), rows(_rows){
-    this->locationName = _name;
+    this->locationName = Util::copyArray(_name);
 }
 
 // Setters
@@ -53,7 +53,8 @@ EventLocation::~EventLocation() {
 
 // cpy ctor
 EventLocation::EventLocation(const EventLocation& e) {
-    if (e.locationName) {
+
+    if (e.locationName) {   
         this->locationName = Util::copyArray(e.locationName);
     }
     else {
@@ -121,13 +122,14 @@ istream& operator>>(istream& input, EventLocation& el) {
 int Event::eventsNo = 0;
 
 // Ctors
-Event::Event() : eventName("No name"), type("None"), duration(0) {
+Event::Event() : type("None"), duration(0) {
     this->setDate("00/00/0000");
+    this->eventName = Util::copyArray("");
     this->setStartingHour("00:00");
 }
 
 Event::Event(const char* _eventName, const string _type, const char* _date, const char* _startingHour) : type(_type) {
-    this->eventName = _eventName;
+    this->eventName = Util::copyArray(_eventName);
     this->setDate(_date);
     this->setStartingHour(_startingHour);
     this->duration = 120;
@@ -136,7 +138,7 @@ Event::Event(const char* _eventName, const string _type, const char* _date, cons
 
 Event::Event(const char* _eventName, string _type, const char* _date, const char* _startingHour, int _duration) :
      type(_type), duration(_duration) {
-    this->eventName = _eventName;
+    this->eventName = Util::copyArray(_eventName);
     this->setDate(_date);
     this->setStartingHour(_startingHour);
     Event::eventsNo++;
@@ -168,12 +170,13 @@ void Event::setDuration(int _duration) {
 
 // Getters
 const char* Event::getEventName() { 
-    char* copy = Util::copyArray(eventName);
+    char* copy = Util::copyArray(eventName);  //mai era nevoie de copy? sau face functia din util o copie
     return copy; }
 const string Event::getType() { return this->type; }
 char* Event::getDate() { return Util::copyArray(this->date); }
 char* Event::getStartingHour() { return Util::copyArray(this->startingHour); }
-int Event::getDuration() { return this->duration; }
+int Event::getDuration() { return this->duration; } 
+int Event::getEventsNo() { return Event::eventsNo; }
 
 // D.ctor and C.ctor
 // Do i need a D.ctor
@@ -184,7 +187,7 @@ Event::~Event() {
     }
         
 }
-
+           // should i add const here?
 Event::Event(Event& e) : type(e.type) {
     if (e.eventName) {
         this->eventName = Util::copyArray(e.eventName);
@@ -201,13 +204,11 @@ Event::Event(Event& e) : type(e.type) {
 
 // Overloaded operators
 Event& Event::operator=(const Event& e) {
-    if (eventName != nullptr) {
-        delete[] eventName;
-    }
+    if (eventName != nullptr) { delete[] eventName; }
 
-    if (this == &e)
-        return *this;
+    if (this == &e){ return *this; }
 
+    this->eventName = Util::copyArray(e.eventName);
     this->setDate(e.date);
     this->setDuration(e.duration);
     this->setStartingHour(e.startingHour); // fara variabilele constante
@@ -278,11 +279,12 @@ Tickets::Tickets() : category("No category"), maxTickets(0) {
     this->setId("000000000000000");
 }
 
-Tickets::Tickets(const char* _id, const char* _category, const int _maxTickets, int _ticketsSoldIndex) :  category(_category), maxTickets(300){
+Tickets::Tickets(const char* _id, const char* _category, const int _maxTickets, int _ticketsSoldIndex) : maxTickets(300){
     if (_ticketsSoldIndex == 0) { this->setId(_id); }
     else if (_ticketsSoldIndex == 1) { this->setVipId(_id); }
     else throw exception("There is no such ticket");
-    
+
+    this->category = Util::copyArray(_category);
     Tickets::ticketsSold[_ticketsSoldIndex]++;
 }
 
@@ -290,7 +292,7 @@ Tickets::Tickets(const char* _id, const char* _category, const int _maxTickets, 
 void Tickets::setId(const char* _id) {
     if (strlen(_id) != 9)
         throw exception("Wrong id");
-    strcpy_s(this->id, _id);
+    strcpy_s(this->id, _id);   //one issue here
 
 }void Tickets::setVipId(const char* _vipId) {
     if (strlen(_vipId) != 3)
@@ -300,9 +302,9 @@ void Tickets::setId(const char* _id) {
 
 // Getters
 
-char* Tickets::getId() { return this->id; }
-char* Tickets::getVipId() { return this->vipId; }
-const char* Tickets::getCategory() { return this->category; }
+char* Tickets::getId() { return Util::copyArray(this->id); }
+char* Tickets::getVipId() { return Util::copyArray(this->vipId); }
+const char* Tickets::getCategory() { return this->category; }   //aici nu returnez copie
 const int Tickets::getMaxTickets() { return this->maxTickets; }
 int* Tickets::getTicketsSold() { return Tickets::ticketsSold; }
 
@@ -312,10 +314,9 @@ Tickets::~Tickets() {
         delete[] this->category;
     }
 }
-
+           ///
 Tickets::Tickets(Tickets& t) : maxTickets(t.maxTickets){
 
-    if (this == &t) return;
     if (t.category) {
         this->category = Util::copyArray(t.category);
     }
@@ -336,7 +337,7 @@ Tickets& Tickets::operator=(const Tickets& t) {
     if (this == &t) {
         return *this;
     }
-
+    this->category = Util::copyArray(t.category);
     this->setId(t.id);
     this->setVipId(t.vipId);
     return *this;
@@ -359,7 +360,7 @@ bool Tickets::operator==(Tickets t) {
 istream& operator>>(istream& input, Tickets& t) {
     cout << "What type of ticket would you like?" << endl << "Vip or Normal ?";
     string buffer;
-    while (buffer != "Vip" || buffer != "Normal") {
+    while (buffer != "Vip" && buffer != "Normal") {  
         input >> buffer;
     }
 

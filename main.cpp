@@ -8,15 +8,15 @@ using namespace std;
 
 int main() {
 
-    /*EventLocation location1; 
-    cin >> location1;
-    cout << location1;*/
+    //EventLocation location1; 
+    //cin >> location1;   // erroare dupa ce introduc numarul de randuri
+    //cout << location1;
 
-  /*  EventLocation location2("Conference Hall", 100, 10); 
-    cout << location2;
-    int x = (int)location2;
-    cout << x;*/
-    
+    //EventLocation location2("Conference Hall", 100, 10); 
+    //cout << location2;
+    //int x = (int)location2;
+    //cout << x;
+    //
     //// Display location details using overloaded operator<<
     //cout <<endl << "Location 1:" << location1 << endl;
     //cout <<endl << "Location 2:" << location2 << endl;
@@ -43,7 +43,7 @@ int main() {
 
 
     //--------------------------------------------------------------------------------------------
-    // WORKS IF I COMMENT THE DTOR  
+    // This works but also prints : on the first row, (idk why)
     //Event event2("Birthday Party", "Celebration", "12/01/2023", "18:00"); // Parameterized constructor
     //Event event3("Conference", "Business", "05/15/2023", "09:30", 180); // Parameterized constructor with duration
     //cout << event3[2];
@@ -64,11 +64,12 @@ int main() {
     //--------------------------------------------------------------------------------------------
 
     //Tickets t1("123456789", "Normal", 300, NORMAL);
-    Tickets t2("456", "Vip", 300,VIP);
-    Tickets t3("789", "Vip", 300, VIP); 
-    bool x = t2 == t3;
-    cout << x;
-
+    //Tickets t2("456", "Vip", 300,VIP);
+    //Tickets t3("789", "Vip", 300, VIP); 
+    //bool x = t2 == t3;
+    //cout << x;
+    //Tickets t;
+    //cin >> t;
     //// Print some information about the tickets
     //cout << "The category of t1 is " << t1.getCategory() << endl;
     //cout << "The id of t2 is " << t2.getId() << endl;
