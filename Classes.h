@@ -93,22 +93,25 @@ enum TicketType {
 
 class Tickets {
     char id[10] = "";
-    char vipId[4] = "";  //idk if i should implement this
+    char vipId[4] = "";  
     const char* category = nullptr;
     int maxTickets = 0;
     static int ticketsSold[2]; // 0 => normal tickets sold, 1 => vip tickets sold
+    bool SoldOut = false;
 
 public:
     // Other methods
     bool isVip(const char* _category);
+    bool isSoldOut(int _maxTickets, int _soldTickets);
 
     // Ctors
     Tickets();
     Tickets(const char* _id, const char* _category, const int _maxTickets, int ticketsSoldIndex);
 
-    // Settrs
+    // Settrs 
     void setId(const char* _id);
     void setVipId(const char* _vipId);
+    void setSoldOut(bool _isSolsOut);
 
     // Getters
     char* getId();
@@ -116,6 +119,7 @@ public:
     const char* getCategory();
     const int getMaxTickets();
     static int* getTicketsSold();
+    bool getSoldOut();
 
     // C.ctor and dtor
     ~Tickets();
@@ -125,6 +129,7 @@ public:
     Tickets& operator=(const Tickets& t);
     friend istream& operator>>(istream& input, Tickets& t);
     bool operator==(Tickets t);
+    bool operator!();
     
 };
 

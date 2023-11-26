@@ -274,6 +274,11 @@ bool Tickets::isVip(const char* _category) {
     else return false;
 }
 
+bool isSoldOut(int _maxTickets, int _soldTickets) {
+    if (_maxTickets == _soldTickets) { return true; }
+    else { return false; }
+}
+
 // Ctors
 Tickets::Tickets() : category("No category"), maxTickets(0) {
     this->setId("000000000000000");
@@ -300,6 +305,10 @@ void Tickets::setId(const char* _id) {
     strcpy_s(this->id, _vipId);
 }
 
+void Tickets::setSoldOut(bool _isSoldOut) {
+    this->SoldOut = _isSoldOut;
+}
+
 // Getters
 
 char* Tickets::getId() { return Util::copyArray(this->id); }
@@ -307,6 +316,7 @@ char* Tickets::getVipId() { return Util::copyArray(this->vipId); }
 const char* Tickets::getCategory() { return this->category; }   //aici nu returnez copie
 const int Tickets::getMaxTickets() { return this->maxTickets; }
 int* Tickets::getTicketsSold() { return Tickets::ticketsSold; }
+bool Tickets::getSoldOut() { return this->SoldOut; }
 
 // Dtor and C.ctor
 Tickets::~Tickets() {
@@ -355,6 +365,11 @@ bool Tickets::operator==(Tickets t) {
     else {
         throw exception("Wrong category");
     }
+}
+
+bool Tickets::operator!() {
+    this->setSoldOut(!this->getSoldOut()); 
+    return this->getSoldOut();              //not sure which one i need
 }
 
 istream& operator>>(istream& input, Tickets& t) {

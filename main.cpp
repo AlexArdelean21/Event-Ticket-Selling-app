@@ -64,10 +64,13 @@ int main() {
     //--------------------------------------------------------------------------------------------
 
     //Tickets t1("123456789", "Normal", 300, NORMAL);
+
+    //cout << endl << t1.getSoldOut();
+    //cout << endl << !t1.getSoldOut();
+
     //Tickets t2("456", "Vip", 300,VIP);
     //Tickets t3("789", "Vip", 300, VIP); 
-    //bool x = t2 == t3;
-    //cout << x;
+   
     //Tickets t;
     //cin >> t;
     //// Print some information about the tickets
