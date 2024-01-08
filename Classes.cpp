@@ -6,7 +6,7 @@
 using namespace std;
 
 
-// UTIL CLASS
+//------------------------------------------------------------------- UTIL CLASS -------------------------------------------------------------------
 char* Util::copyArray(const char* source) {
     if (source == nullptr) {
         return nullptr;
@@ -118,7 +118,7 @@ istream& operator>>(istream& input, EventLocation& el) {
     return input;
 }
 
-// EVENT CLASS
+//---------------------------------------------------------------------- EVENT CLASS ---------------------------------------------------------------------------
 int Event::eventsNo = 0;
 
 // Ctors
@@ -262,17 +262,8 @@ ostream& operator<<(ostream& output, Event& e) {
     return output;
 }
 
-// TICKETS CLASS
-int Tickets::ticketsSold[] = {0, 0};
-
-// Other methods
-bool Tickets::isVip(const char* _category) {
-    if (_category != "Vip" && _category != "Normal") {
-        throw exception("Choose between Normal and Vip!");
-    }
-    if (_category == "Vip") return true;    
-    else return false;
-}
+// ---------------------------------------------------------------- TICKETS CLASS ---------------------------------------------------------------------------
+int Tickets::ticketsSold = 0;
 
 bool isSoldOut(int _maxTickets, int _soldTickets) {
     if (_maxTickets == _soldTickets) { return true; }
@@ -280,18 +271,15 @@ bool isSoldOut(int _maxTickets, int _soldTickets) {
 }
 
 // Ctors
-Tickets::Tickets() : category("No category"), maxTickets(0) {
+Tickets::Tickets(){
     this->setId("000000000000000");
 }
 
-Tickets::Tickets(const char* _id, const char* _category, const int _maxTickets, int _ticketsSoldIndex) : maxTickets(300){
-    if (_ticketsSoldIndex == 0) { this->setId(_id); }
-    else if (_ticketsSoldIndex == 1) { this->setVipId(_id); }
-    else throw exception("There is no such ticket");
-
-    this->category = Util::copyArray(_category);
-    Tickets::ticketsSold[_ticketsSoldIndex]++;
-}
+Tickets::Tickets(const char* _id, float _price){
+    this->setId(_id);
+    this->price = _price;
+    Tickets::ticketsSold++;
+} 
 
 // Setters
 void Tickets::setId(const char* _id) {
@@ -299,10 +287,14 @@ void Tickets::setId(const char* _id) {
         throw exception("Wrong id");
     strcpy_s(this->id, _id);   //one issue here
 
-}void Tickets::setVipId(const char* _vipId) {
-    if (strlen(_vipId) != 3)
-        throw exception("Wrong id");
-    strcpy_s(this->id, _vipId);
+}
+
+void Tickets::setPrice(float _price) {
+    this->price = _price;
+}
+
+void Tickets::setMaxTickets(EventLocation el) {
+    this->maxTickets = el.getMaxSeats();
 }
 
 void Tickets::setSoldOut(bool _isSoldOut) {
@@ -312,59 +304,17 @@ void Tickets::setSoldOut(bool _isSoldOut) {
 // Getters
 
 char* Tickets::getId() { return Util::copyArray(this->id); }
-char* Tickets::getVipId() { return Util::copyArray(this->vipId); }
-const char* Tickets::getCategory() { return this->category; }   //aici nu returnez copie
 const int Tickets::getMaxTickets() { return this->maxTickets; }
-int* Tickets::getTicketsSold() { return Tickets::ticketsSold; }
+int Tickets::getTicketsSold() { return Tickets::ticketsSold; }
 bool Tickets::getSoldOut() { return this->SoldOut; }
-
-// Dtor and C.ctor
-Tickets::~Tickets() {
-    if (this->category != nullptr) {
-        delete[] this->category;
-    }
-}
-           ///
-Tickets::Tickets(Tickets& t) : maxTickets(t.maxTickets){
-
-    if (t.category) {
-        this->category = Util::copyArray(t.category);
-    }
-    else {
-        this->category = nullptr;
-    }
-
-    this->setId(t.getId());
-    this->setVipId(t.getVipId());
-}
-
 
 // Overloaded operators
 Tickets& Tickets::operator=(const Tickets& t) {
-    if (category != nullptr) {
-        delete[] category;
-    }
     if (this == &t) {
         return *this;
     }
-    this->category = Util::copyArray(t.category);
     this->setId(t.id);
-    this->setVipId(t.vipId);
     return *this;
-}
-
-bool Tickets::operator==(Tickets t) {
-    if (!strcmp(t.category, "Vip")) {
-        if (!strcmp(t.vipId, this->vipId)) { return true; }
-        else { return false; }
-    }
-    else if (!strcmp(t.category, "Normal")) {
-        if (!strcmp(t.id, this->id)) { return true; }
-        else { return false; }
-    }
-    else {
-        throw exception("Wrong category");
-    }
 }
 
 bool Tickets::operator!() {
@@ -372,46 +322,69 @@ bool Tickets::operator!() {
     return this->getSoldOut();              //not sure which one i need
 }
 
-istream& operator>>(istream& input, Tickets& t) {
-    cout << "What type of ticket would you like?" << endl << "Vip or Normal ?";
-    string buffer;
-    while (buffer != "Vip" && buffer != "Normal") {  
-        input >> buffer;
-    }
-
-    if (t.category != nullptr) {
-        delete[] t.category;
-    }
-    t.category = Util::copyArray(buffer.c_str());
-
-    if (!strcmp(t.category, "Vip")) {
-        cout << "Enter the Vip id, it should loook like this \"###\" :";
-        input >> t.vipId;
-    }
-    else if (!strcmp(t.category, "Normal")) {
-        cout << "Enter the Vip id, it should loook like this \"#########\" :";
-        input >> t.id;
-    }
-
-    cout << "What is the maximum ammount of tickets? ";
-    input >> t.maxTickets;
-    
-    return input;
-}
+//istream& operator>>(istream& input, Tickets& t) {                       --------- I need to redo this in away that only the buyer needs to use it--------
+//    cout << "What type of ticket would you like?" << endl << "Vip or Normal ?";
+//    string buffer;
+//    while (buffer != "Vip" && buffer != "Normal") {  
+//        input >> buffer;
+//    }
+//
+//    if (t.category != nullptr) {
+//        delete[] t.category;
+//    }
+//    t.category = Util::copyArray(buffer.c_str());
+//
+//    if (!strcmp(t.category, "Vip")) {
+//        cout << "Enter the Vip id, it should loook like this \"###\" :";
+//        input >> t.vipId;
+//    }
+//    else if (!strcmp(t.category, "Normal")) {
+//        cout << "Enter the Vip id, it should loook like this \"#########\" :";
+//        input >> t.id;
+//    }
+//
+//    cout << "What is the maximum ammount of tickets? ";
+//    input >> t.maxTickets;
+//    
+//    return input;
+//}
 
 
 ostream& operator<<(ostream& output, Tickets& t) {
-    if (t.isVip(t.getCategory())) {
-        output << endl<< "You bought a Vip ticket, this is your ticket's id: " << t.getVipId();
-        output << "Thre are a number of " << t.getMaxTickets() << "tickets in total";
-        output << "So far " << Tickets::getTicketsSold()[0] + Tickets::getTicketsSold()[1] << " tickets have been sold.";
-    }
-    else {
-        output << endl << "You bought a ticket, this is your ticket's id: " << t.getId();
-        output << endl << "Thre are " << t.getMaxTickets() - (Tickets::getTicketsSold()[0] + Tickets::getTicketsSold()[1]);
-        output<< " tickets remaining";
-   
-        
-    }
+    output << endl << "You bought a ticket, this is your ticket's id: " << t.getId();
+    output << endl << "There are " << t.getMaxTickets() - (Tickets::getTicketsSold()) << " tickets left.";
+
+    return output;
+}
+
+// -------------------------------------------------------------------------------------- Vip Tickets ----------------------------------------------------------------------------------------
+
+int VipTickets::VipTicketsSold = 0;
+
+VipTickets::VipTickets() {
+    this->setVipId("000");
+}
+
+VipTickets::VipTickets(const char* _Vipid) : Tickets(id, price) {
+    this->setVipId(_Vipid);
+    Tickets::ticketsSold++;
+    int Tickets::ticketsSold = 0;
+    VipTickets::VipTicketsSold++;
+}
+
+void VipTickets::setVipId(const char* _Vipid) {
+    if (strlen(_Vipid) != 3)
+        throw exception("Wrong id");
+    strcpy_s(this->VipId, _Vipid);
+}
+
+char* VipTickets::getVipId() { return Util::copyArray(this->VipId); }
+int VipTickets::getVipTicketsSold() { return VipTickets::VipTicketsSold; }
+
+ostream& operator<<(ostream& output, VipTickets& vt) {
+        output << endl << "You bought a Vip ticket, this is your ticket's id: " << vt.getVipId();
+        output << "Thre are a number of " << vt.getMaxTickets() << "tickets in total";
+        output << "So far " << VipTickets::getVipTicketsSold() << " Vip Tickets and "<< Tickets::getTicketsSold() << " normal tickets have been sold.";
+    
     return output;
 }

@@ -10,9 +10,10 @@ public:
     static char* copyArray(const char* source);
 };
 
+//---------------------------------------------------------------------------------- Event Location -------------------------------------------------------------------------------------------------
 class EventLocation {
     const char* locationName = nullptr;
-    int maxSeats = 0; //i should add a method to check if the max seats are the same as the max tickets
+    int maxSeats = 0; 
     int rows = 0;  
    
 public:
@@ -44,6 +45,7 @@ public:
 istream& operator>>(istream& input, EventLocation& el);
 ostream& operator<<(ostream& output, EventLocation& el);
 
+//---------------------------------------------------------------------------------- Event -------------------------------------------------------------------------------------------------
 class Event {
     const char* eventName = nullptr;
     string type = "";
@@ -90,48 +92,58 @@ istream& operator>>(istream& input, Event& e);
 enum TicketType {
     NORMAL, VIP
 };
-
+//---------------------------------------------------------------------------------- Tickets -------------------------------------------------------------------------------------------------
 class Tickets {
-    char id[10] = "";
-    char vipId[4] = "";  
-    const char* category = nullptr;
+protected:
+    char id[10] = ""; 
     int maxTickets = 0;
-    static int ticketsSold[2]; // 0 => normal tickets sold, 1 => vip tickets sold
+    float price = 0.0;
+    static int ticketsSold; 
     bool SoldOut = false;
 
 public:
     // Other methods
-    bool isVip(const char* _category);
-    bool isSoldOut(int _maxTickets, int _soldTickets);
+    bool isSoldOut(int _maxTickets, int _soldTickets);//???????????
 
     // Ctors
     Tickets();
-    Tickets(const char* _id, const char* _category, const int _maxTickets, int ticketsSoldIndex);
+    Tickets(const char* _id, float _price);
 
     // Settrs 
     void setId(const char* _id);
-    void setVipId(const char* _vipId);
-    void setSoldOut(bool _isSolsOut);
+    void setPrice(float _price);
+    void setMaxTickets(EventLocation el);
+    void setSoldOut(bool _SolsOut);
 
     // Getters
     char* getId();
-    char* getVipId();
-    const char* getCategory();
     const int getMaxTickets();
-    static int* getTicketsSold();
+    static int getTicketsSold();
     bool getSoldOut();
-
-    // C.ctor and dtor
-    ~Tickets();
-    Tickets(Tickets& t);
 
     // Overloaded operators
     Tickets& operator=(const Tickets& t);
     friend istream& operator>>(istream& input, Tickets& t);
-    bool operator==(Tickets t);
     bool operator!();
     
 };
 
 ostream& operator<<(ostream& output, Tickets& t);
 istream& operator>>(istream& input, Tickets& t);
+
+//---------------------------------------------------------------------------------- Vip Tickets -------------------------------------------------------------------------------------------------
+class VipTickets : public Tickets {
+    char VipId[4] = "";
+    static int VipTicketsSold;
+public:
+    VipTickets();
+    VipTickets(const char* VipId);    
+
+    void setVipId(const char* _vipId);
+
+    static int getVipTicketsSold();
+    char* getVipId();
+};
+
+static int getVipTicketsSold();
+ostream& operator<<(ostream& output, VipTickets& vt);

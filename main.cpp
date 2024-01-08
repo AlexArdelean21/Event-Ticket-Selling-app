@@ -63,32 +63,27 @@ int main() {
     
     //--------------------------------------------------------------------------------------------
 
-    //Tickets t1("123456789", "Normal", 300, NORMAL);
+    Tickets t1("123456789", 20);
+ 
+    cout << endl << t1.getSoldOut();
+    cout << endl << !t1.getSoldOut();
 
-    //cout << endl << t1.getSoldOut();
-    //cout << endl << !t1.getSoldOut();
-
-    //Tickets t2("456", "Vip", 300,VIP);
-    //Tickets t3("789", "Vip", 300, VIP); 
+    VipTickets t2("456");
+    VipTickets t3("789"); 
    
-    //Tickets t;
-    //cin >> t;
-    //// Print some information about the tickets
-    //cout << "The category of t1 is " << t1.getCategory() << endl;
-    //cout << "The id of t2 is " << t2.getId() << endl;
-    //cout << "The max tickets for t3 is " << t3.getMaxTickets() << endl;
+    Tickets t;
+    cin >> t;
+    // Print some information about the tickets
+    cout << "The id of t2 is " << t2.getId() << endl;
+    cout << "The max tickets for t3 is " << t3.getMaxTickets() << endl;
 
-    //// Check if some tickets are Vip
-    //cout << endl << "Is t1 Vip? " << t1.isVip(t1.getCategory()) << endl;
-    //cout << "Is t2 Vip? " << t2.isVip(t2.getCategory()) << endl;
+    // Get the number of tickets sold for each category
+    cout << endl << "The number of Normal tickets sold is " << t1.getTicketsSold() << endl;
+    cout << "The number of Vip tickets sold is " << t2.getVipTicketsSold() << endl;
 
-    //// Get the number of tickets sold for each category
-    //cout << endl << "The number of Normal tickets sold is " << t1.getTicketsSold()[0] << endl;
-    //cout << "The number of Vip tickets sold is " << t2.getTicketsSold()[1] << endl;
+    // Display event details using overloaded operator<<
+    cout << t1 << endl;   
 
-    //// Display event details using overloaded operator<<
-    //cout << t1 << endl;   
-
-    //cout << endl << endl;
-    //return 0;
+    cout << endl << endl;
+    return 0;
 }
