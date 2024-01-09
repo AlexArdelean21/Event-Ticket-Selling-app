@@ -4,6 +4,11 @@
 
 #include "Command.hpp"
 
+#include "Ticket.hpp"
+#include "TicketManager.hpp"
+#include "TicketTypes.hpp"
+#include "TicketVip.hpp"
+
 #include "UserManager.hpp"
 #include "User.hpp"
 
@@ -12,6 +17,7 @@ const std::string prompt = ">> ";
 bool quitCalled = false;
 
 UserManager gUserManager;
+TicketManager gTicketManager;
 
 
 inline void print_usage(std::string command)
@@ -79,6 +85,75 @@ void cmd_logout(std::vector<std::string> args)
     gUserManager.Logout();
 }
 
+
+void cmd_topup(std::vector<std::string> args)
+{
+    if (args.size() != 2)
+    {
+        print_usage(args[0]);
+        return;
+    }
+
+    gUserManager.TopUp(std::stoi(args[1]));
+}
+
+void cmd_balance(std::vector<std::string> args)
+{
+    if (args.size() != 1)
+    {
+        print_usage(args[0]);
+        return;
+    }
+
+    double balance = gUserManager.GetBalance();
+
+    if (balance == -1.0f)
+    {
+        return;
+    }
+
+    std::cout << "Balance: $" << balance << std::endl;
+}
+
+void cmd_buy(std::vector<std::string> args)
+{
+    if (args.size() != 3)
+    {
+        print_usage(args[0]);
+        return;
+    }
+
+    TicketType type = args[2] == "standard" ? TicketType::STANDARD
+        : args[2] == "vip" ? TicketType::VIP
+        : TicketType::STANDARD; // Default
+
+    gUserManager.BuyTicket(gTicketManager, args[1], type);
+}
+
+void cmd_list(std::vector<std::string> args)
+{
+    if (args.size() != 2)
+    {
+        print_usage(args[0]);
+        return;
+    }
+
+    if (args[1] == "events")
+    {
+        gTicketManager.ListAvailableEvents();
+    }
+    else if (args[1] == "tickets")
+    {
+        gUserManager.ListTickets();
+    }
+    else
+    {
+        std::cerr << "Could not list '" << args[1] << "': Unknown token"
+            << std::endl;
+    }
+}
+
+
 int main(int argc, const char* argv[])
 {
     const std::vector<Command> commands
@@ -90,8 +165,13 @@ int main(int argc, const char* argv[])
         Command("register", "either starts the register prompt by simply typing 'register', "
                          "or you can type 'register [name] [password]'", cmd_register),
         Command("logout", "logout the current user, will fail if not currently logged in!", cmd_logout),
+        Command("topup", "Tops up the current balance by given amount. Usage: 'topup [amount]'", cmd_topup),
+        Command("balance", "Prints the current balance", cmd_balance),
+        Command("buy", "Try to buy a ticket at an event. Usage: 'buy [event name] [standard/vip]", cmd_buy),
+        Command("list", "Lists all available events. Usage: 'list [events/tickets]'", cmd_list)
     };
 
+    gTicketManager.InitFromFile(argv[1]);
 
     std::string line;
 

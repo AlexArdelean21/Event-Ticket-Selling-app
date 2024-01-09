@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Ticket.hpp"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -34,8 +35,11 @@ public:
         return true;
     }
 
+    std::vector<TicketId> const& GetTickets() { return mTickets; }
 
     void TopUp(double amount) { mBalance += amount; }
+
+    void AddTicket(TicketId id) { mTickets.push_back(id); }
 
 private:
     std::string const mName;
@@ -43,5 +47,6 @@ private:
 
     double mBalance = 0.0f;
 
+    std::vector<TicketId> mTickets;
 };
 

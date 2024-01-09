@@ -5,6 +5,9 @@
 
 #include "User.hpp"
 
+#include "Ticket.hpp"
+#include "TicketManager.hpp"
+
 
 class UserManager
 {
@@ -86,7 +89,48 @@ public:
         std::cout << "[INFO]  Logout succesful!" << std::endl;
         return true;
     }
- 
+
+    bool BuyTicket(TicketManager& tm, std::string const& event, TicketType type)
+    {
+        if (!mUserCurrent)
+        {
+            std::cerr << "[ERROR] Not logged in!" << std::endl;
+            return false;
+        }
+
+        if (!mUserCurrent->Pay(tm.GetEventPrice(event, type)))
+        {
+            return false;
+        }
+
+        TicketId id = tm.PrintTicket(mUserCurrent->GetName(), event, type);
+
+        if (!id)
+        {
+            mUserCurrent->TopUp(tm.GetEventPrice(event, type));
+            std::cerr << "[ERROR] Could not buy ticket!" << std::endl;
+            return false;
+        }
+
+        mUserCurrent->AddTicket(id);
+        return true;
+    }
+
+    bool ListTickets()
+    {
+        if (!mUserCurrent)
+        {
+            std::cerr << "[ERROR] Not logged in!" << std::endl;
+            return false;
+        }
+
+        for (auto const& id : mUserCurrent->GetTickets())
+        {
+            std::cout << id << std::endl;
+        }
+
+        return true;
+    }
 
     bool TopUp(double amount)
     {

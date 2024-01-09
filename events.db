@@ -1,0 +1,43 @@
+# Events database
+
+#
+# Comments are allowed :)))
+#
+# Syntax guide:
+#
+# event [name]
+# ticket [standard/vip] [count/price] [value]
+# ...
+# end
+#
+# event ...
+# ...
+# end
+#
+
+# EDM Festival at Romania, Constanta
+event Neversea
+ticket standard count 5
+ticket standard price 500
+ticket vip count 3
+ticket vip price 800
+end
+
+# EDM Festival at Romania, Cluj
+event Untold
+ticket standard count 2
+ticket standard price 100
+ticket vip count 1
+ticket vip price 200
+end
+
+# EDM Festival at Romania, Brasov
+event Massif
+ticket standard count 4
+ticket standard price 80
+ticket vip count 2
+ticket vip price 100
+end
+
+
+
