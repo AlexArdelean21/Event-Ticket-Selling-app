@@ -1,89 +1,158 @@
-
 #include <iostream>
-#include <string>
-#include "Classes.h"
-#include <cstring>
+#include <sstream>
+#include <vector>
 
-using namespace std;
+#include "Command.hpp"
 
-int main() {
-
-    //EventLocation location1; 
-    //cin >> location1;   // erroare dupa ce introduc numarul de randuri
-    //cout << location1;
-
-    //EventLocation location2("Conference Hall", 100, 10); 
-    //cout << location2;
-    //int x = (int)location2;
-    //cout << x;
-    //
-    //// Display location details using overloaded operator<<
-    //cout <<endl << "Location 1:" << location1 << endl;
-    //cout <<endl << "Location 2:" << location2 << endl;
-
-    //// Modify and display details of location1
-    //location1.setMaxSeats(50);
-    //location1.setRows(5);
-    //cout <<endl << "Modified Location 1:" << location1 << endl;
-
-    //// Demonstrate copy constructor and copy assignment operator
-    //EventLocation location3 = location2;
-    //EventLocation location4;
-    //location4 = location1;          
-
-    //cout <<endl << "Copied Location 2 to Location 3:" << location3 << endl;
-    //cout <<endl << "Copied Location 1 to Location 4:" << location4 << endl;
-
-    //// Demonstrate the increment operators
-    //EventLocation location5 = location2++;
-    //EventLocation location6 = ++location1;
-
-    //cout << endl << "Postfix Increment Location 2:" << location5 << endl;
-    //cout << "Prefix Increment Location 1:" << location6 << endl;
+#include "UserManager.hpp"
+#include "User.hpp"
 
 
-    //--------------------------------------------------------------------------------------------
-    // This works but also prints : on the first row, (idk why)
-    //Event event2("Birthday Party", "Celebration", "12/01/2023", "18:00"); // Parameterized constructor
-    //Event event3("Conference", "Business", "05/15/2023", "09:30", 180); // Parameterized constructor with duration
-    //cout << event3[2];
+const std::string prompt = ">> ";
+bool quitCalled = false;
 
-    //// Display event details using overloaded operator<<
-    //cout << endl << "Event 2:" << event2 << endl;
-    //cout << endl << "Event 3:" << event3 << endl;
+UserManager gUserManager;
 
-    //// Modify and display details of event2
-    //event2.setDuration(120);
-    //event2.setStartingHour("19:30");
-    //cout << endl << "Modified Event 2:" << event2 << endl;
 
-    //// Demonstrate copy constructor
-    //Event event4 = event3;
-    //cout << endl << "Copied Event 3 to Event 4:" << event4 << endl;  
-    
-    //--------------------------------------------------------------------------------------------
+inline void print_usage(std::string command)
+{
+    std::cerr << "[ERROR] Invalid usage of command '"
+        << command << "'" << std::endl;
+    std::cout << "[INFO]  Type 'help " + command + "' to find out more!"
+        << std::endl;
+}
 
-    Tickets t1("123456789", 20);
- 
-    cout << endl << t1.getSoldOut();
-    cout << endl << !t1.getSoldOut();
 
-    VipTickets t2("456");
-    VipTickets t3("789"); 
-   
-    Tickets t;
-    cin >> t;
-    // Print some information about the tickets
-    cout << "The id of t2 is " << t2.getId() << endl;
-    cout << "The max tickets for t3 is " << t3.getMaxTickets() << endl;
+void cmd_quit(std::vector<std::string> args)
+{
+    quitCalled = true;
+}
 
-    // Get the number of tickets sold for each category
-    cout << endl << "The number of Normal tickets sold is " << t1.getTicketsSold() << endl;
-    cout << "The number of Vip tickets sold is " << t2.getVipTicketsSold() << endl;
+void cmd_login(std::vector<std::string> args)
+{
+    if (args.size() == 3)
+    {
+        gUserManager.Login(args[1], args[2]);
+        return;
+    }
 
-    // Display event details using overloaded operator<<
-    cout << t1 << endl;   
+    if (args.size() == 1) {
+        std::string name, password;
 
-    cout << endl << endl;
+        std::cout << "User: ";
+        std::cin >> name;
+        std::cout << "Password: ";
+        std::cin >> password;
+
+        gUserManager.Login(name, password);
+        return;
+    }
+
+    print_usage(args[0]);
+}
+
+void cmd_register(std::vector<std::string> args)
+{
+    if (args.size() == 3)
+    {
+        gUserManager.Register(args[1], args[2]);
+        return;
+    }
+
+    if (args.size() == 1) {
+        std::string name, password;
+
+        std::cout << "User: ";
+        std::cin >> name;
+        std::cout << "Password: ";
+        std::cin >> password;
+
+        gUserManager.Register(name, password);
+        return;
+    }
+
+    print_usage(args[0]);
+}
+
+void cmd_logout(std::vector<std::string> args)
+{
+    gUserManager.Logout();
+}
+
+int main(int argc, const char* argv[])
+{
+    const std::vector<Command> commands
+    {
+        Command("quit", "exits the program", cmd_quit),
+        Command("exit", "exits the program", cmd_quit),
+        Command("login", "either starts the login prompt by simply typing 'login', "
+                            "or you can type 'login [name] [password]'", cmd_login),
+        Command("register", "either starts the register prompt by simply typing 'register', "
+                         "or you can type 'register [name] [password]'", cmd_register),
+        Command("logout", "logout the current user, will fail if not currently logged in!", cmd_logout),
+    };
+
+
+    std::string line;
+
+    while (!quitCalled)
+    {
+        std::cout << prompt;
+        std::getline(std::cin, line);
+
+        std::vector<std::string> tokens;
+        {
+            std::stringstream sline(line);
+            std::string aux;
+
+            while (std::getline(sline, aux, ' '))
+            {
+                tokens.push_back(aux);
+            }
+        }
+
+        if (tokens.empty())
+        {
+            continue;
+        }
+
+        if (tokens[0] == "help")
+        {
+            for (auto const& command : commands)
+            {
+                if (tokens.size() != 1 && tokens[1] != command.GetName())
+                    continue;
+
+                std::cout << command.GetName()
+                    << " -> "
+                    << command.GetDescription()
+                    << std::endl;
+            }
+
+            continue;
+        }
+
+        bool foundCommand = false;
+
+        for (auto const& command : commands)
+        {
+            if (tokens[0] == command.GetName())
+            {
+                command.Run(tokens);
+                foundCommand = true;
+                break;
+            }
+        }
+
+        if (!foundCommand)
+        {
+            std::cerr << "Unknown command: " << tokens[0] << std::endl;
+            std::cout << "Type 'help' for available commands, or "
+                << "'help [subcommand]' to print info about a specific command"
+                << std::endl;
+        }
+    }
+
     return 0;
 }
+

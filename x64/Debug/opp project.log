@@ -1,18 +1,5 @@
-﻿  Classes.cpp
-  main.cpp
-D:\Alex lucru\facultate\an2_sem1\opp\opp project\main.cpp(66,15): error C2665: 'Tickets::Tickets': no overloaded function could convert all the argument types
-D:\Alex lucru\facultate\an2_sem1\opp\opp project\Classes.h(109,5): message : could be 'Tickets::Tickets(char *,const char *,int)'
-D:\Alex lucru\facultate\an2_sem1\opp\opp project\main.cpp(66,15): message : 'Tickets::Tickets(char *,const char *,int)': cannot convert argument 1 from 'const char [10]' to 'char *'
-D:\Alex lucru\facultate\an2_sem1\opp\opp project\main.cpp(66,16): message : Conversion from string literal loses const qualifier (see /Zc:strictStrings)
-D:\Alex lucru\facultate\an2_sem1\opp\opp project\main.cpp(66,15): message : while trying to match the argument list '(const char [10], const char [7], TicketType)'
-D:\Alex lucru\facultate\an2_sem1\opp\opp project\main.cpp(71,15): error C2665: 'Tickets::Tickets': no overloaded function could convert all the argument types
-D:\Alex lucru\facultate\an2_sem1\opp\opp project\Classes.h(109,5): message : could be 'Tickets::Tickets(char *,const char *,int)'
-D:\Alex lucru\facultate\an2_sem1\opp\opp project\main.cpp(71,15): message : 'Tickets::Tickets(char *,const char *,int)': cannot convert argument 1 from 'const char [4]' to 'char *'
-D:\Alex lucru\facultate\an2_sem1\opp\opp project\main.cpp(71,16): message : Conversion from string literal loses const qualifier (see /Zc:strictStrings)
-D:\Alex lucru\facultate\an2_sem1\opp\opp project\main.cpp(71,15): message : while trying to match the argument list '(const char [4], const char [4], TicketType)'
-D:\Alex lucru\facultate\an2_sem1\opp\opp project\main.cpp(72,15): error C2665: 'Tickets::Tickets': no overloaded function could convert all the argument types
-D:\Alex lucru\facultate\an2_sem1\opp\opp project\Classes.h(109,5): message : could be 'Tickets::Tickets(char *,const char *,int)'
-D:\Alex lucru\facultate\an2_sem1\opp\opp project\main.cpp(72,15): message : 'Tickets::Tickets(char *,const char *,int)': cannot convert argument 1 from 'const char [4]' to 'char *'
-D:\Alex lucru\facultate\an2_sem1\opp\opp project\main.cpp(72,16): message : Conversion from string literal loses const qualifier (see /Zc:strictStrings)
-D:\Alex lucru\facultate\an2_sem1\opp\opp project\main.cpp(72,15): message : while trying to match the argument list '(const char [4], const char [4], TicketType)'
+﻿  main.cpp
+  Classes.cpp
+  UserManger.cpp
   Generating Code...
+  opp project.vcxproj -> D:\Alex lucru\facultate\an2_sem1\opp\opp project\x64\Debug\opp project.exe
