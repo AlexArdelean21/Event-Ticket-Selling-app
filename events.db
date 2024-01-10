@@ -39,5 +39,38 @@ ticket vip count 2
 ticket vip price 100
 end
 
+# Festivalul Jazz la Bucuresti
+event JazzFest
+ticket standard count 6
+ticket standard price 120
+ticket vip count 4
+ticket vip price 250
+end
+
+# Festivalul Filmului la Iasi
+event CineFest
+ticket standard count 3
+ticket standard price 75
+ticket vip count 2
+ticket vip price 150
+end
+
+# Festivalul Artelor Vizuale la Timisoara
+event VisArt
+ticket standard count 8
+ticket standard price 90
+ticket vip count 5
+ticket vip price 180
+end
+
+# Festivalul Gastronomic la Cluj-Napoca
+event TasteFest
+ticket standard count 10
+ticket standard price 60
+ticket vip count 6
+ticket vip price 120
+end
+
+
 
 

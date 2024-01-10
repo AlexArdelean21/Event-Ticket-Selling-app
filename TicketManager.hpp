@@ -169,7 +169,7 @@ public:
                 << "\tStandard - $" << event.GetStdCost()
                 << ", remaining: " << event.GetStdLeft() << std::endl
                 << "\tVIP      - $" << event.GetVipCost()
-                << ", remaining: " << event.GetVipLeft() << std::endl;
+                << ", remaining: " << event.GetVipLeft() << std::endl << std::endl;
         }
     }
 
