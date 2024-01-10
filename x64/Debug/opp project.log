@@ -1,6 +1,4 @@
 ﻿  main.cpp
 D:\Alex lucru\facultate\an2_sem1\opp\opp project\Ticket.hpp(18,16): warning C4244: 'initializing': conversion from 'size_t' to 'const double', possible loss of data
 D:\Alex lucru\facultate\an2_sem1\opp\opp project\TicketManager.hpp(234,46): warning C4244: 'argument': conversion from 'double' to 'size_t', possible loss of data
-  UserManger.cpp
-  Generating Code...
   opp project.vcxproj -> D:\Alex lucru\facultate\an2_sem1\opp\opp project\x64\Debug\opp project.exe
