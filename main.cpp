@@ -156,6 +156,9 @@ void cmd_list(std::vector<std::string> args)
 
 int main(int argc, const char* argv[])
 {
+    std::cout << prompt;
+    std::cout << "If you are new to the platform, type help to see availabe commands." << std::endl;
+
     const std::vector<Command> commands
     {
         Command("quit", "exits the program", cmd_quit),
